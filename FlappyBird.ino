@@ -6,42 +6,42 @@ SevSeg sevseg; //Initiate a seven segment controller object
 
 const short int button = 14;
 
-//Variabile pentru debounce
+//Variables for debouce
 int buttonState;
 int lastButtonState = LOW;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 
-//Variabile pt dificultate
+//Variables for difficulty
 unsigned long lastDifficultyChange;
 short int intervalWallMove = 300;
 short int intervalWallCreate = 1300;
 short int level = 3;
 
-//Variabila pt scor
+//Variables for the score
 int scor=0;
 int maxScor=0;
 
-//Variabile pentru LED-ul 'pasare'
+//Variables for the "Bird" LED
 int flap = 0;
 unsigned long lastFlap = 0;
 int iLed = 3;
-// jLed este mereu 1; pasarea sta mereu pe coloana 1, pozitia ei schimbandu-se doar pe linii
+// jLed is always 1; the bird is bound to column 1, as its position changes on lines
 
-//Variabile pentru pereti
+//Variables for the wall
 struct
 {
-  int iHole; //linia de la care incepe gaura; gaura va fi formata mereu din 3 puncte consecutive, primul fiind iHole
-  int j; //coloana pe care se afla peretele acum
+  int iHole; //the line at which the hole starts; the hole is always made of 3 consecutive LEDs, the first one being iHole
+  int j; //the column that the wall is at a given time
 } wall[4];
-int noWall = 0; //numarul peretilor
+int noWall = 0; //counts the number of the walls
 unsigned long lastWallCreate;
 unsigned long lastWallMove;
 
 
 void setup()
 {
-  //Initiere Afisor
+  //4 Digit 7 Segment initialization; used for the score
   byte numDigits = 4;
   byte digitPins[] = {2, 3, 4, 5};
   byte segmentPins[] = {6, 7, 8, 9, 10, 12, 11, 13};
@@ -54,11 +54,10 @@ void setup()
   
   pinMode (button, INPUT);
 
-  //Initiere matrice
+  //Matrix initialization
   lc.shutdown(0, false);// turn off power saving, enables display
   lc.setIntensity(0, 8);// sets brightness (0~15 possible values)
 
-  //Inceput joc
   startGame();
 }
 
@@ -79,15 +78,15 @@ void loop()
   }  
 }
 
-//functie care este apelata la inceputul jocului si care asteapta input
+//function used at the start of the game; waits for input
 void startGame()
 {
   lc.clearDisplay(0);
   drawBird();
   while (checkButton() == 0)
   {
-    sevseg.setNumber(maxScor);
-    sevseg.refreshDisplay();
+    sevseg.setNumber(maxScor); //shows the highest score registered since the arduino was powered on
+    sevseg.refreshDisplay(); 
   }
   lc.clearDisplay(0);
   noWall = 0;
@@ -98,7 +97,7 @@ void startGame()
   lc.setLed(0, 1, iLed, true);
 }
 
-//functie care este apelata la sfarsitul jocului si care asteapta input
+//function used at the end of the game; waits for input
 void endGame()
 {
   if (scor > maxScor)
@@ -107,7 +106,7 @@ void endGame()
   unsigned long lastEndGameFlick = millis();
   while (checkButton() == 0)
   {
-    sevseg.setNumber(scor, level);
+    sevseg.setNumber(scor, level); //shows the score from the last round
     sevseg.refreshDisplay();
     if (millis() - lastEndGameFlick >= 300)
     {
@@ -123,7 +122,7 @@ void endGame()
   level = 3;
 }
 
-//functie care verifica daca pasarea atinge peretii
+//function that checks collision between the bird and the walls
 bool checkCollision()
 {
   bool end = 0;
@@ -135,7 +134,7 @@ bool checkCollision()
   return end;
 }
 
-//functie care misca peretii
+//function that moves the walls
 void doWall()
 {
   if (millis() - lastWallCreate >= intervalWallCreate)
@@ -169,7 +168,7 @@ void doWall()
   }
 }
 
-//functioneaza ca o anexa la doWall(); aprinde sau stinge un perete(in functie de parametrii)
+//function used in doWall(); turns ON or OFF a wall (based on the boolean b)
 void switchWall(int iHole, int j, bool b)
 {
   int i;
@@ -178,7 +177,7 @@ void switchWall(int iHole, int j, bool b)
       lc.setLed(0, j, i, b);
 }
 
-//functie care misca pasarea
+//function that moves the bird
 void doFlap()
 {
   if (!flap)
@@ -206,7 +205,7 @@ void doFlap()
   }
 }
 
-//functie care verifica daca butonul este apasat; de asemenea, are debounce
+//function that debounces the input from the button
 bool checkButton()
 {
   bool press = 0;
@@ -228,7 +227,7 @@ bool checkButton()
   return press;
 }
 
-//functie care ajusteaza dificultatea
+//function that adjusts the game's difficulty
 void adjustGameDifficulty()
 {
   if(level > 0)
@@ -246,7 +245,7 @@ void adjustGameDifficulty()
   }  
 }
 
-//functia care deseneaza pe matrice pasarea in functia startGame()
+//a function that 'tries' to draw a bird at the start of the game while waiting for input
 void drawBird()
 {
   lc.setLed(0, 2, 0, true);
