@@ -1,7 +1,3 @@
-// pin 12 is connected to the MAX7219 pin 1
-// pin 11 is connected to the CLK pin 13
-// pin 10 is connected to LOAD pin 12
-
 #include "LedControl.h"
 LedControl lc = LedControl(17, 16, 15, 1); //
 
