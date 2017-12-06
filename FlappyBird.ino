@@ -52,6 +52,7 @@ void setup()
   sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments, updateWithDelays, leadingZeros);
   sevseg.setBrightness(90);
   
+  //Button initialization
   pinMode (button, INPUT);
 
   //Matrix initialization
