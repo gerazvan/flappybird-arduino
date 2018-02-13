@@ -11,6 +11,9 @@ Documentation
 -> For playing this game, only the button is used. When pressed, the 'bird' goes up by 2 rows (in the matrix). If the 'bird' doesn't receive any input, it will go down in rows at constant pace. The game is over when the 'bird' hits a wall or when it goes under the last row of the matrix. The game ends as well when the player hits the score 9000 and it is considered that he won.
 
 [Link to video gameplay hosted on Google Drive](https://photos.app.goo.gl/LnT4gBmRFhaEv0qA2)
+-> I've played for 1 minute, therefore gameplay is shown throughout all difficulties.
+
+
 ----------------------------------------------------
 
 Documentatie
