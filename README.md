@@ -1,4 +1,4 @@
-Documentation
+# Documentation
 
 -> For this project I've used the following components: LED matrix 8x8, MAX7219 module, one button and a 4 digits 7 segments display.
 
@@ -16,7 +16,7 @@ Documentation
 
 ----------------------------------------------------
 
-Documentatie
+# Documentatie
 
 -> Pentru crearea acestui joc am folosit urmatoarele componente: matricea de LED-uri 8x8, modulul MAX7219, un buton si un display 4 digiti 7 segmente(am schimbat displayul LCD cu acesta).
 
